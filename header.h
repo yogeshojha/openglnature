@@ -1,0 +1,5 @@
+#define DEFAULT_WIDTH 1366
+#define DEFAULT_HEIGHT 768
+
+int height = DEFAULT_HEIGHT;
+int width = DEFAULT_WIDTH;
