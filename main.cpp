@@ -59,9 +59,24 @@ void makebuilding()
 }
 void blacktarroad()
 {
-	glColor3f(0.8,0.8,0.8);
+	glColor3f(0.2,0.2,0.2);
+	glBegin(GL_POLYGON);
+		glVertex2d(0,0);
+		glVertex2d(0,195);
+		glVertex2d(width,195);
+		glVertex2d(width,0);
+	glEnd();
 }
-
+void tarlines(GLint xco, GLint yco)
+{
+	glColor3f(1.0,1.0,0.0);
+	glBegin(GL_POLYGON);
+		glVertex2d(xco,yco);
+		glVertex2d(xco,yco+5);
+		glVertex2d(xco+50,yco+5);
+		glVertex2d(xco+50,yco);
+	glEnd();
+}
 void display(void)
 {
   glClear(GL_COLOR_BUFFER_BIT);
@@ -69,6 +84,8 @@ void display(void)
 		fence(x,200);
   makebuilding();
   blacktarroad();
+  for(GLint i = 0; i <= width; i+=70)
+ 	 tarlines(i,95);
   glFlush();
   glutSwapBuffers();
 }
