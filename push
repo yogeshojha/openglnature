@@ -1,0 +1,6 @@
+git add .
+echo "Addded ALl Files"
+git commit -m $1
+echo "commited with message $1"
+git push origin master
+echo "successfully pushed"
