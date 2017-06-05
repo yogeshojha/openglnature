@@ -3,7 +3,8 @@
 //testing and debugging purpose ***remove at release ***
 #include <stdio.h>
 #include <string.h>
-
+#include <stdlib.h>
+#include <time.h>       /* time */
 void resize(int, int);
 //default height and width of screen
 #define DEFAULT_WIDTH 1440
@@ -23,6 +24,17 @@ char oops[100] = "OOPS!! you are going outside of college boundry   Move Left";
 char oops_r[100] = "OOPS!! you are going outside of college boundry   Move Right";
 int mouse_status = 0;
 int distance_km = 0;
+GLint default_start_walk = 1000;
+GLint default_start_walk_player1_yco = 380;
+GLint default_start_walk_player2_xco = 380;
+int status_football_player1_crossed = 0;
+int status_football_player2_crossed = 0;
+int status_football_goalkeeper_crossed = 0;
+int status_football_lady_crossed = 0;
+int status_crossed = 0;
+int rand_speed;
+GLint football_goalkeeper_xco = 190;
+GLint football_lady_xco = 500;
 void init()
 {
 	glClearColor(SkyBlue[0],SkyBlue[1],SkyBlue[2],1.0);
@@ -238,391 +250,392 @@ void vehicle(GLint x, GLint y, int status, GLfloat col1, GLfloat col2, GLfloat c
 
 }
 
-void woman()
+void woman(GLint x, GLint y,GLfloat tcolor1,GLfloat tcolor2,GLfloat tcolor3, GLfloat scolor1,GLfloat scolor2,GLfloat scolor3)
 {
 	//face
 	glColor3ub(0,0,0);
 	glPushMatrix();
-	glTranslatef(540,495,0);
-	//glutSolidTorus(1,10,100,90);
+	glTranslatef(x,y,0);
+	glutSolidTorus(1,10,100,90);
 	glPopMatrix();
 	glColor3ub(255,191,128);
 	glPushMatrix();
-	glTranslatef(540,494,0);
+	glTranslatef(x,y-1,0);
 	glutSolidTorus(7,7,100,90);
 	glPopMatrix();
 	glColor3ub(0,0,0);
 	glBegin(GL_LINES);
- 		glVertex2i(540,494);
- 		glVertex2i(540,490); //nose
-  		glVertex2i(531,498);
-		glVertex2i(532,499);
- 		glVertex2i(532,499);
-		glVertex2i(537,498);//eyebrow
-  	    glVertex2i(549,498);
-		glVertex2i(548,499);
-		glVertex2i(548,499);
- 		glVertex2i(543,498);//eyebrow
+ 		glVertex2i(x,y-1);
+ 		glVertex2i(x,y-5); //nose
+  		glVertex2i(x-9,y+3);
+		glVertex2i(x-8,y+4);
+ 		glVertex2i(x-8,y+4);
+		glVertex2i(x-7,y+3);//eyebrow
+  	    glVertex2i(x+9,y+3);
+		glVertex2i(x+8,y+4);
+		glVertex2i(x+8,y+4);
+ 		glVertex2i(x+3,y+3);//eyebrow
  	glEnd();
 	//ear right
 	glBegin(GL_POLYGON);
 	glColor3ub(255,191,128);
-	glVertex2i(540-14,494+1);
-	glVertex2i(540-14,490+1);
-	glVertex2i(538-14,489+1);
-	glVertex2i(538-14,495+1);
+	glVertex2i(x-14,y-1+1);
+	glVertex2i(x-14,y-5+1);
+	glVertex2i(x-2-14,y-6+1);
+	glVertex2i(x-2-14,y+1);
 	glEnd();
 	//ear left
 	glBegin(GL_POLYGON);
 	glColor3ub(255,191,128);
-	glVertex2i(554,495);
-	glVertex2i(556,496);
-	glVertex2i(556,491);
-	glVertex2i(554,490);
+	glVertex2i(x+14,y);
+	glVertex2i(x+16,y+1);
+	glVertex2i(x+16,y-4);
+	glVertex2i(x+14,y-5);
 	glEnd();
 	//ear ring right
 	glBegin(GL_POLYGON);
 	glColor3ub(255,85,90);
-	glVertex2i(539-14,492);
-	glVertex2i(542-14,485);
-	glVertex2i(536-14,485);
+	glVertex2i(x-1-14,y-3);
+	glVertex2i(x+2-14,y-10);
+	glVertex2i(x-4-14,y-10);
 
 	glEnd();
 	//ear ring left
    glBegin(GL_POLYGON);
 	glColor3ub(255,85,90);
-	glVertex2i(551,485);
-	glVertex2i(555,492);
-	glVertex2i(558,485);
+	glVertex2i(x+11,y-10);
+	glVertex2i(x+15,y-3);
+	glVertex2i(x+18,y-10);
 	glEnd();
 
 //hair
 	glBegin(GL_POLYGON);
 	glColor3ub(0,0,0);
-	glVertex2i(525,499);
-	glVertex2i(549,509);
-	glVertex2i(540,512);
-	glVertex2i(528,507);
+	glVertex2i(x-15,y+4);
+	glVertex2i(x+9,y+14);
+	glVertex2i(x,y+17);
+	glVertex2i(x-12,y+12);
 	glEnd();
 	glBegin(GL_POLYGON);
 	glColor3ub(0,0,0);
-	glVertex2i(540,507);
-	glVertex2i(549,509);
-	glVertex2i(552,507);
-	glVertex2i(555,499);
+	glVertex2i(x,y+12);
+	glVertex2i(x+9,y+14);
+	glVertex2i(x+12,y+12);
+	glVertex2i(x+15,y+4);
 	glEnd();
 	// eyes
         glBegin(GL_POLYGON);
- 		glVertex2i(533,496);
- 		glVertex2i(535,496);
- 		glVertex2i(535,494);
- 		glVertex2i(533,494);
+ 		glVertex2i(x-7,y+1);
+ 		glVertex2i(x-5,y+1);
+ 		glVertex2i(x-5,y-1);
+ 		glVertex2i(x-7,y-1);
 glEnd();
 glBegin(GL_POLYGON);
- 		glVertex2i(545,496);
- 		glVertex2i(547,496);
-     	glVertex2i(547,494);
- 		glVertex2i(545,494);
+ 		glVertex2i(x+5,y+1);
+ 		glVertex2i(x+7,y+1);
+     	glVertex2i(x-7,y-1);
+ 		glVertex2i(x+5,y-1);
 glEnd();
 //mouth
 glBegin(GL_POLYGON);
  		glColor3ub(150,50,50);
-        glVertex2i(534,487);
- 		glVertex2i(540,484);
- 		glVertex2i(546,487);
- 		glVertex2i(540,485);
+        glVertex2i(x-6,y-8);
+ 		glVertex2i(x,y-11);
+ 		glVertex2i(x+6,y-8);
+ 		glVertex2i(x,y-10);
 glEnd();
 //shirt
  	glBegin(GL_POLYGON);
- 		glColor3ub(160,150,250);
-        glVertex2i(529,480);
- 		glVertex2i(551,480);
- 		glVertex2i(566,469);
- 		glVertex2i(561,460);
- 		glVertex2i(556,465);
-        glVertex2i(556,445);
- 		glVertex2i(524,445);
- 		glVertex2i(524,465);
- 		glVertex2i(519,460);
- 		glVertex2i(514,469);
+ 		glColor3f(tcolor1,tcolor2,tcolor3);
+        glVertex2i(x-11,y-15);
+ 		glVertex2i(x+11,y-15);
+ 		glVertex2i(x+26,y-26);
+ 		glVertex2i(x+21,y-25);
+ 		glVertex2i(x+16,y-30);
+        glVertex2i(x+16,y-50);
+ 		glVertex2i(x-16,y-50);
+ 		glVertex2i(x-16,y-30);
+ 		glVertex2i(x-21,y-25);
+ 		glVertex2i(x-26,y-26);
 glEnd();
 //neck
     glBegin(GL_POLYGON);
         glColor3ub(255,190,128);
-        glVertex2i(533,480);
-        glVertex2i(547,480);
-        glVertex2i(545,471);
-        glVertex2i(535,471);
+        glVertex2i(x-7,y-15);
+        glVertex2i(x+7,y-15);
+        glVertex2i(x+5,y-24);
+        glVertex2i(x-5,y-24);
     glEnd();
 //hands
  	glBegin(GL_POLYGON);
 		glColor3ub(255,191,128);
- 		glVertex2i(565,468);
- 		glVertex2i(575,453);
- 		glVertex2i(567,454);
- 		glVertex2i(562,462);
+ 		glVertex2i(x+25,y-27);
+ 		glVertex2i(x+35,y-42);
+ 		glVertex2i(x+27,y-41);
+ 		glVertex2i(x+22,y-33);
  	glEnd();
   	glBegin(GL_POLYGON);
-		glVertex2i(575,453);
- 		glVertex2i(556,438);
- 		glVertex2i(556,445);
- 		glVertex2i(567,454);
+		glVertex2i(x+35,y-42);
+ 		glVertex2i(x+16,y-57);
+ 		glVertex2i(x+16,y-50);
+ 		glVertex2i(x+27,y-41);
  	glEnd();
 glBegin(GL_POLYGON);
-	 	glVertex2i(515,468);
- 		glVertex2i(505,453);
- 		glVertex2i(513,454);
- 		glVertex2i(518,462);
+	 	glVertex2i(x-25,y-27);
+ 		glVertex2i(x-35,y-42);
+ 		glVertex2i(x-27,y-41);
+ 		glVertex2i(x-22,y-33);
  	glEnd();
   	glBegin(GL_POLYGON);
-		glVertex2i(505,453);
-   		glVertex2i(524,438);
-   		glVertex2i(524,445);
-   		glVertex2i(513,454);
+		glVertex2i(x-35,y-42);
+   		glVertex2i(x-16,y-57);
+   		glVertex2i(x-16,y-50);
+   		glVertex2i(x-27,y-41);
   	glEnd();
 // belt
  	glBegin(GL_POLYGON);
 		glColor3ub(10,120,130);
- 		glVertex2i(556,445);
- 		glVertex2i(524,445);
- 		glVertex2i(524,440);
- 		glVertex2i(556,440);
+ 		glVertex2i(x+16,y-50);
+ 		glVertex2i(x-16,y-50);
+ 		glVertex2i(x-16,y-55);
+ 		glVertex2i(x+16,y-55);
 glEnd();
 
 
 	/// leg
 glBegin(GL_POLYGON);
 		glColor3ub(255,190,128);
-glVertex2i(555,440);
-glVertex2i(525,440);
-glVertex2i(520,405);
-glVertex2i(530,405);
-glVertex2i(533,438);
-glVertex2i(550,405);
-glVertex2i(560,405);
+glVertex2i(x+15,y-55);
+glVertex2i(x-15,y-55);
+glVertex2i(x-20,y-90);
+glVertex2i(x-10,y-90);
+glVertex2i(x-7,y-57);
+glVertex2i(x+10,y-90);
+glVertex2i(x+20,y-90);
 	glEnd();
 //skirt
     glBegin(GL_POLYGON);
-	    glColor3ub(180,80,90);
-		glVertex2i(524,440);
-		glVertex2i(556,440);
-		glVertex2i(566,410);
-		glVertex2i(514,410);
+	    glColor3f(scolor1,scolor2,scolor3);
+		glVertex2i(x-16,y-55);
+		glVertex2i(x+16,y-55);
+		glVertex2i(x+26,y-85);
+		glVertex2i(x-26,y-85);
     glEnd();
 	//shoe left
 	glBegin(GL_POLYGON);
 	glColor3ub(180,0,0);
-	glVertex2i(530,405);
-	glVertex2i(530,396);
-	glVertex2i(528,396);
-	glVertex2i(528,404);
-	glVertex2i(522,396);
-	glVertex2i(512,396);
-	glVertex2i(520,405);
+	glVertex2i(x-10,y-90);
+	glVertex2i(x-10,y-99);
+	glVertex2i(x-12,y-99);
+	glVertex2i(x-12,y-91);
+	glVertex2i(x-18,y-99);
+	glVertex2i(x-28,y-99);
+	glVertex2i(x-20,y-90);
 
 	glEnd();
 	//shoe right
 	glBegin(GL_POLYGON);
 	glColor3ub(180,0,0);
-	glVertex2i(550,405);
-	glVertex2i(550,396);
-	glVertex2i(552,396);
-	glVertex2i(552,404);
-	glVertex2i(558,396);
-	glVertex2i(568,396);
-	glVertex2i(560,405);
+	glVertex2i(x+10,y-90);
+	glVertex2i(x+10,y-99);
+	glVertex2i(x+12,y-99);
+	glVertex2i(x+12,y-91);
+	glVertex2i(x+18,y-99);
+	glVertex2i(x+28,y-99);
+	glVertex2i(x+20,y-90);
 	glEnd();
 
 }
 
 
-
-void man()
+void man(GLint x, GLint y, GLfloat tcolor1, GLfloat tcolor2,GLfloat tcolor3, GLfloat pcolor1, GLfloat pcolor2,GLfloat pcolor3)
 {
+
 	glColor3ub(0,0,0);
 	glPushMatrix();
-	glTranslatef(540-220,495+76,0);
+	glTranslatef(x-220,y+76,0);
 	glutSolidTorus(1,10,100,90);
 	glPopMatrix();
 	glColor3ub(255,191,128);
     glPushMatrix();
-	glTranslatef(540-220,495+76,0);
+	glTranslatef(x-220,y+76,0);
 	glutSolidTorus(7,7,100,90);
 	glPopMatrix();
 	glColor3ub(0,0,0);
 	glBegin(GL_LINES);
- 		glVertex2i(540-220,495+76);
- 		glVertex2i(540-220,490+76); //nose
-  		glVertex2i(531-220,500+76);
- 		glVertex2i(537-220,500+76);//eyebrow
-  		glVertex2i(543-220,500+76);
- 		glVertex2i(549-220,500+76);//eyebrow
+ 		glVertex2i(x-220,y+76);
+ 		glVertex2i(x-220,y-5+76); //nose
+  		glVertex2i(x-9-220,y+5+76);
+ 		glVertex2i(x-3-220,y+5+76);//eyebrow
+  		glVertex2i(x+3-220,y+5+76);
+ 		glVertex2i(x+9-220,y+5+76);//eyebrow
  	glEnd();
 //ear right
 	glBegin(GL_POLYGON);
 	glColor3ub(255,191,128);
-	glVertex2i(540-14-220,494+1+76);
-	glVertex2i(540-14-220,490+1+76);
-	glVertex2i(538-14-220,489+1+76);
-	glVertex2i(538-14-220,495+1+76);
+	glVertex2i(x-14-220,y-1+1+76);
+	glVertex2i(x-14-220,y-5+1+76);
+	glVertex2i(x-2-14-220,y-6+1+76);
+	glVertex2i(x-2-14-220,y+1+76);
 	glEnd();
 	//ear left
 	glBegin(GL_POLYGON);
 	glColor3ub(255,191,128);
-	glVertex2i(554-220,495+76);
-	glVertex2i(556-220,496+76);
-	glVertex2i(556-220,491+76);
-	glVertex2i(554-220,490+76);
+	glVertex2i(x+14-220,y+76);
+	glVertex2i(x+16-220,y+1+76);
+	glVertex2i(x+16-220,y-4+76);
+	glVertex2i(x+14-220,y-5+76);
 	glEnd();
 //hair
 	glBegin(GL_POLYGON);
 	  glColor3ub(0,0,0);
-	  glVertex2i(527-220,503+76);
-	  glVertex2i(553-220,503+76);
-	  glVertex2i(547-220,509+76);
-	  glVertex2i(533-220,509+76);
+	  glVertex2i(x-13-220,y+8+76);
+	  glVertex2i(x+13-220,y+8+76);
+	  glVertex2i(x+7-220,y+14+76);
+	  glVertex2i(x-7-220,y+14+76);
 	glEnd();
 
 
 	// eyes
  	glBegin(GL_POLYGON);
- 		glVertex2i(533-220,498+76);
- 		glVertex2i(535-220,498+76);
- 		glVertex2i(535-220,496+76);
- 		glVertex2i(533-220,496+76);
+ 		glVertex2i(x-7-220,y+3+76);
+ 		glVertex2i(x-5-220,y+3+76);
+ 		glVertex2i(x-5-220,y+1+76);
+ 		glVertex2i(x-7-220,y+1+76);
 glEnd();
 glBegin(GL_POLYGON);
- 		glVertex2i(545-220,498+76);
- 		glVertex2i(547-220,498+76);
- 		glVertex2i(547-220,496+76);
- 		glVertex2i(545-220,496+76);
+ 		glVertex2i(x+5-220,y+3+76);
+ 		glVertex2i(x+7-220,y+3+76);
+ 		glVertex2i(x+7-220,y+1+76);
+ 		glVertex2i(x+5-220,y+1+76);
 glEnd();
  	// mouth
 glBegin(GL_POLYGON);
- 		glVertex2i(535-220,487+76);
- 		glVertex2i(540-220,485+76);
- 		glVertex2i(545-220,487+76);
- 		glVertex2i(540-220,487+76);
+ 		glVertex2i(x-5-220,y-8+76);
+ 		glVertex2i(x-220,y-10+76);
+ 		glVertex2i(x+5-220,y-8+76);
+ 		glVertex2i(x-220,y-8+76);
 glEnd();
 //beard
 glBegin(GL_POLYGON);
     glColor3ub(0,0,0);
-    glVertex2i(538-220,480+76);
-	glVertex2i(542-220,480+76);
-	glVertex2i(542-220,484+76);
-	glVertex2i(538-220,484+76);
+    glVertex2i(x-2-220,y-15+76);
+	glVertex2i(x+2-220,y-15+76);
+	glVertex2i(x+2-220,y-11+76);
+	glVertex2i(x-2-220,y-11+76);
 glEnd();
 //shirt
  	glBegin(GL_POLYGON);
- 		glColor3ub(55,50,70);
-	    glVertex2i(529-220,480+76);
- 		glVertex2i(551-220,480+76);
- 		glVertex2i(566-220,469+76);
- 		glVertex2i(561-220,461+76);
- 		glVertex2i(556-220,465+76);
-        glVertex2i(556-220,445+76);
- 		glVertex2i(524-220,445+76);
- 		glVertex2i(524-220,465+76);
- 		glVertex2i(519-220,460+76);
- 		glVertex2i(514-220,469+76);
+ 		glColor3f(tcolor1,tcolor2,tcolor3);
+	    glVertex2i(x-11-220,y-15+76);
+ 		glVertex2i(x+11-220,y-15+76);
+ 		glVertex2i(x+26-220,y-26+76);
+ 		glVertex2i(x+21-220,y-34+76);
+ 		glVertex2i(x+16-220,y-30+76);
+        glVertex2i(x+16-220,y-50+76);
+ 		glVertex2i(x-16-220,y-50+76);
+ 		glVertex2i(x-16-220,y-30+76);
+ 		glVertex2i(x-21-220,y-35+76);
+ 		glVertex2i(x-26-220,y-26+76);
 glEnd();
 //hands
  	glBegin(GL_POLYGON);
 		glColor3ub(255,191,128);
- 		glVertex2i(565-220,468+76);
- 		glVertex2i(575-220,453+76);
- 		glVertex2i(567-220,454+76);
- 		glVertex2i(562-220,462+76);
+ 		glVertex2i(x+25-220,y-27+76);
+ 		glVertex2i(x+35-220,y-42+76);
+ 		glVertex2i(x+27-220,y-41+76);
+ 		glVertex2i(x+22-220,y-33+76);
  	glEnd();
   	glBegin(GL_POLYGON);
-		glVertex2i(575-220,453+76);
- 		glVertex2i(556-220,438+76);
- 		glVertex2i(556-220,445+76);
- 		glVertex2i(567-220,454+76);
+		glVertex2i(x+35-220,y-42+76);
+ 		glVertex2i(x+16-220,y-57+76);
+ 		glVertex2i(x+16-220,y-50+76);
+ 		glVertex2i(x+27-220,y-41+76);
  	glEnd();
 glBegin(GL_POLYGON);
-	 	glVertex2i(515-220,468+76);
- 		glVertex2i(505-220,453+76);
- 		glVertex2i(513-220,454+76);
- 		glVertex2i(518-220,462+76);
+	 	glVertex2i(x-25-220,y-27+76);
+ 		glVertex2i(x-35-220,y-42+76);
+ 		glVertex2i(x-27-220,y-41+76);
+ 		glVertex2i(x-22-220,y-33+76);
  	glEnd();
   	glBegin(GL_POLYGON);
-		glVertex2i(505-220,453+76);
-   		glVertex2i(524-220,438+76);
-   		glVertex2i(524-220,445+76);
-   		glVertex2i(513-220,454+76);
+		glVertex2i(x-35-220,y-42+76);
+   		glVertex2i(x-16-220,y-57+76);
+   		glVertex2i(x-16-220,y-50+76);
+   		glVertex2i(x-27-220,y-41+76);
   	glEnd();
 // belt
  	glBegin(GL_POLYGON);
 		glColor3ub(150,12,30);
- 		glVertex2i(556-220,445+76);
- 		glVertex2i(524-220,445+76);
- 		glVertex2i(524-220,440+76);
-		glVertex2i(524-220,440+76);
+ 		glVertex2i(x+16-220,y-50+76);
+ 		glVertex2i(x-16-220,y-50+76);
+ 		glVertex2i(x-16-220,y-55+76);
+		glVertex2i(x-16-220,y-55+76);
 
- 		glVertex2i(556-220,440+76);
+ 		glVertex2i(x+16-220,y-55+76);
 glEnd();
 // collar
  	glBegin(GL_POLYGON);
 		glColor3ub(200,140,110+76);
- 		glVertex2i(529-220,480+76);
- 		glVertex2i(551-220,480+76);
- 		glVertex2i(546-220,470+76);
- 		glVertex2i(534-220,470+76);
+ 		glVertex2i(x-11-220,y-15+76);
+ 		glVertex2i(x+11-220,y-15+76);
+ 		glVertex2i(x+6-220,y-25+76);
+ 		glVertex2i(x-6-220,y-25+76);
 glEnd();
 
  	glBegin(GL_TRIANGLES);
 		glColor3ub(20,140,110);
- 		glVertex2i(540-220,477+76);
-  		glVertex2i(545-220,470+76);
- 		glVertex2i(535-220,470+76);
+ 		glVertex2i(x-220,y-18+76);
+  		glVertex2i(x+5-220,y-25+76);
+ 		glVertex2i(x-5-220,y-25+76);
 glEnd();
 
 // buttons
 	glColor3ub(0,0,0);
 	glPushMatrix();
-	glTranslatef(540-220,465+76,0);
+	glTranslatef(x-220,y-30+76,0);
 	glutSolidTorus(1,1,100,90);
 	glPopMatrix();
 	glPushMatrix();
-	glTranslatef(540-220,458+76,0);
+	glTranslatef(x-220,y-37+76,0);
 	glutSolidTorus(1,1,100,90);
 	glPopMatrix();
 	glPushMatrix();
-	glTranslatef(540-220,451+76,0);
+	glTranslatef(x-220,y-44+76,0);
 	glutSolidTorus(1,1,100,90);
 	glPopMatrix();
 
 	/// pant
 glBegin(GL_POLYGON);
-		glColor3ub(80,80,230);
-glVertex2i(555-220,440+76);
-glVertex2i(525-220,440+76);
-glVertex2i(520-220,405+76);
-glVertex2i(530-220,405+76);
-glVertex2i(533-220,438+76);
-glVertex2i(550-220,405+76);
-glVertex2i(560-220,405+76);
+ 		glColor3f(pcolor1,pcolor2,pcolor3);
+glVertex2i(x+15-220,y-55+76);
+glVertex2i(x-15-220,y-55+76);
+glVertex2i(x-20-220,y-90+76);
+glVertex2i(x-10-220,y-90+76);
+glVertex2i(x-7-220,y-57+76);
+glVertex2i(x+10-220,y-90+76);
+glVertex2i(x+20-220,y-90+76);
 	glEnd();
 		//shoe left
 	glBegin(GL_POLYGON);
 	glColor3ub(100,10,10);
-	glVertex2i(530-220,405+76);
-	glVertex2i(530-220,396+76);
-	glVertex2i(512-220,396+76);
-	glVertex2i(520-220,405+76);
+	glVertex2i(x-10-220,y-90+76);
+	glVertex2i(x-10-220,y-99+76);
+	glVertex2i(x-28-220,y-99+76);
+	glVertex2i(x-20-220,y-90+76);
 
 	glEnd();
 	//shoe right
 	glBegin(GL_POLYGON);
 	glColor3ub(100,10,10);
-	glVertex2i(550-220,405+76);
-	glVertex2i(550-220,396+76);
-	glVertex2i(568-220,396+76);
-	glVertex2i(560-220,405+76);
+	glVertex2i(x+10-220,y-90+76);
+	glVertex2i(x+10-220,y-99+76);
+	glVertex2i(x+28-220,y-99+76);
+	glVertex2i(x+20-220,y-90+76);
 	glEnd();
 
 }
+
 void blacktarroad()
 {
 	glColor3f(0.2,0.2,0.2);
@@ -680,6 +693,7 @@ static void SpecialKeyFunc( int Key, int x, int y )
 	switch ( Key )
 {
 	case GLUT_KEY_RIGHT:
+			mouse_status = 7;
 			distance_km+=5;
         	glutPostRedisplay();
 		break;
@@ -702,6 +716,7 @@ void mouse(int btn,int state,int x,int y)
 {
 	if(btn==GLUT_LEFT_BUTTON && state==GLUT_DOWN)
     {
+    	mouse_status = 7;
     	distance_km+=5;
     	glutPostRedisplay();
 
@@ -715,9 +730,57 @@ void mouse(int btn,int state,int x,int y)
 	}
 
 }
+
+void football()
+{
+	
+	//field
+	glColor3f(1,1,1);
+	glBegin(GL_POLYGON);
+		glVertex2i(80,160);
+		glVertex2i(80,840);
+		glVertex2i(500,840);
+		glVertex2i(500,160);
+	glEnd();
+	//green inside
+	glColor3f(0,0.4,0);
+	glBegin(GL_POLYGON);
+		glVertex2i(85,165);
+		glVertex2i(85,835);
+		glVertex2i(495,835);
+		glVertex2i(495,165);
+	glEnd();
+	//mid line
+	glColor3f(1,1,1);
+	glBegin(GL_QUADS);
+		glVertex2i(80,540);
+		glVertex2i(80,545);
+		glVertex2i(500,545);
+		glVertex2i(500,540);
+	glEnd();
+	//football post
+	glBegin(GL_LINES);
+		glVertex2i(240,840);
+		glVertex2i(240,760);
+
+		glVertex2i(340,760);
+		glVertex2i(340,840);
+
+		glVertex2i(240,760);
+		glVertex2i(340,760);
+
+
+	glEnd();
+	//circle
+		glColor3f(1,1,1);
+		for(GLint i = 80; i>= 75; i--)
+			circle_draw(300,540,i);
+}
+
 void display(void)
 {
   glClear(GL_COLOR_BUFFER_BIT);
+  	football();
   glColor3f(1.0,1.0,1.0);
 		    glRasterPos2i(20,850);
 		    for( int o=0;o<strlen(distance);o++)
@@ -736,12 +799,96 @@ void display(void)
 	glColor3f(1.0,1.0,0.0);
 	for(GLint i = 0; i<=70; i++)
 	circle_draw(1330,820,i);
-	man();
-	woman();
+	//football players
+	man(580,default_start_walk_player1_yco,1.0,0,0,0,0,1);
+	srand (time(NULL));
+	rand_speed = rand() % 10 + 3;
+	if(status_football_player1_crossed == 1)
+	{
+		default_start_walk_player1_yco-=rand_speed+rand() % 4 ;
+		if(default_start_walk_player1_yco <= 380)
+			status_football_player1_crossed = 0;
+	}
+	else if (status_football_player1_crossed == 0)
+	{
+		default_start_walk_player1_yco+=rand_speed+rand() % 4;
+		if(default_start_walk_player1_yco>=700)
+			status_football_player1_crossed = 1;
+	}
+	man(default_start_walk_player2_xco,default_start_walk_player2_xco,1.0,0,0,0,0,1);
+	srand (time(NULL));
+	rand_speed = rand() % 10 + 3;
+	if(status_football_player2_crossed == 1)
+	{
+		default_start_walk_player2_xco-=rand_speed;
+		if(default_start_walk_player2_xco <= 380)
+			status_football_player2_crossed = 0;
+	}
+	else if (status_football_player2_crossed == 0)
+	{
+		default_start_walk_player2_xco+=rand_speed;
+		if(default_start_walk_player2_xco>=700)
+			status_football_player2_crossed = 1;
+	}
+	woman(football_goalkeeper_xco,795,0.55,0.9,0.9,0.85,0.85,0.9);
+	srand (time(NULL));
+	rand_speed = rand() % 10 + 3;
+	if(status_football_goalkeeper_crossed == 1)
+	{
+		football_goalkeeper_xco-=rand_speed;
+		if(football_goalkeeper_xco <= 160)
+			status_football_goalkeeper_crossed = 0;
+	}
+	else if (status_football_goalkeeper_crossed == 0)
+	{
+		football_goalkeeper_xco+=rand_speed;
+		if(football_goalkeeper_xco>=460)
+			status_football_goalkeeper_crossed = 1;
+	}
+	woman(football_lady_xco,700,0.55,0.9,0.9,0.85,0.85,0.9);
+	if(status_football_lady_crossed == 1)
+	{
+		football_lady_xco-=10;
+		if(football_lady_xco <= 100)
+			status_football_lady_crossed = 0;
+	}
+	else if (status_football_lady_crossed == 0)
+	{
+		football_lady_xco+=10;
+		if(football_lady_xco>=480)
+			status_football_lady_crossed = 1;
+	}
+
+	//ball
+	for(GLint i = 0; i<30; i++)
+		circle_draw(450,800,i);
+	//others
+	man(1560,400,0.5,0,0,0,0,1);
+	man(1530,220,1.0,0.9,0,0.2,0,1);
+
+	woman(560,495,0.85,0.53,0.10,0.55,0.9,0.9);
+	woman(1390,295,1,0,0,0.737255,0.560784,0.560784);
+	woman(1190,495,0.13,0.5,0.31,0.5,0.5,1);
 	shed();
+	woman(default_start_walk,655,0.89,0.47,0.82,0.52,0.39,0.39);
+	if(status_crossed == 1)
+	{
+		default_start_walk-=10;
+		if(default_start_walk <= 1000)
+			status_crossed = 0;
+	}
+	else if (status_crossed == 0)
+	{
+		default_start_walk+=10;
+		if(default_start_walk>=1300)
+			status_crossed = 1;
+	}
+	glutPostRedisplay();
 	vehicle(veh_xpos,140,status_mov_veh_light,0.3,0.3,1,0.5,0.0,0.0);
 	vehicle(650,380,0,0.52,0.37,0.26,0.5,0.0,0.0);
-	if(mouse_status!=1)
+	
+	
+	if(mouse_status==7)
 	{
 		veh_xpos+=10;
 		if(veh_xpos >= 1100)
@@ -752,7 +899,7 @@ void display(void)
 			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,oops[o]);
 		}
 	}
-	else
+	else if(mouse_status == 1)
 	{
 	   mouse_status = 0;
 	   veh_xpos -=10;
