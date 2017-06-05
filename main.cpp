@@ -244,7 +244,7 @@ void woman()
 	glColor3ub(0,0,0);
 	glPushMatrix();
 	glTranslatef(540,495,0);
-	glutSolidTorus(1,10,100,90);
+	//glutSolidTorus(1,10,100,90);
 	glPopMatrix();
 	glColor3ub(255,191,128);
 	glPushMatrix();
