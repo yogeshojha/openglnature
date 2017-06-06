@@ -879,7 +879,6 @@ void woman(GLint x, GLint y,GLfloat tcolor1,GLfloat tcolor2,GLfloat tcolor3, GLf
 
   	}
   }
-
   void display(void)
   {
   	glClear(GL_COLOR_BUFFER_BIT);
